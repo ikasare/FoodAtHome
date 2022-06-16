@@ -99,7 +99,7 @@ This app will give users access to recipes from all over the world, including th
 ### Networking
 #### List of network requests by screen
 
-- Create Food review post Screen
+- Create food review post Screen
     - (Create/POST) Create a new post object
 - Login Screen
     - (Read/GET) Query registered user object
