@@ -8,6 +8,13 @@
     tools:context=".MainActivity">
 
 
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="250dp"
+        android:text="Logout" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRandom"
         android:layout_width="match_parent"
