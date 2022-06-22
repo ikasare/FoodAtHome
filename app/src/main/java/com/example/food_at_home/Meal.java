@@ -7,6 +7,11 @@ import com.parse.ParseObject;
 
 public class Meal  extends ParseObject {
 
+    //  default constructor
+    public Meal() {
+        super();
+    }
+
     public static final String MEAL_NAME = "mealName";
 
     public void setMealName(String mealName){

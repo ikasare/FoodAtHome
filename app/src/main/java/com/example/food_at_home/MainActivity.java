@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -14,11 +15,16 @@ import android.widget.Toast;
 import com.example.food_at_home.Adapters.RandomRecipeAdapter;
 import com.example.food_at_home.Listeners.RandomRecipeResponseListener;
 import com.example.food_at_home.Models.RandomRecipeResponse;
+import com.example.food_at_home.Models.Recipe;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    public static final String TAG = "MainActivity";
     ProgressDialog dialog;
     RequestManager manager;
     RandomRecipeAdapter adapter;
@@ -41,11 +47,11 @@ public class MainActivity extends AppCompatActivity {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    ParseUser.logOut();
-                    ParseUser currentUser = ParseUser.getCurrentUser();
-                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(i);
-                    finish();
+                ParseUser.logOut();
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(i);
+                finish();
             }
         });
 
@@ -63,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
             adapter = new RandomRecipeAdapter(MainActivity.this, response.recipes);
             // set adapter onto rv
             recyclerView.setAdapter(adapter);
+            // populate meal database with new meals fetched
+            saveMeals(response.recipes);
         }
 
         @Override
@@ -70,4 +78,27 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
         }
     };
+
+    private void saveMeals(ArrayList<Recipe> recipes) {
+        for (Recipe i : recipes) {
+            String mealName = i.title;
+            Meal meal = new Meal();
+            meal.setMealName(mealName);
+            if (meal.has(mealName)) {
+                continue;
+            } else {
+                meal.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            Toast.makeText(MainActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+
+
+                });
+            }
+        }
+    }
 }
