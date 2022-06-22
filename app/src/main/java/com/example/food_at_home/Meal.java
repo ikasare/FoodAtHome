@@ -1,0 +1,19 @@
+package com.example.food_at_home;
+
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
+@ParseClassName("Meal")
+
+public class Meal  extends ParseObject {
+
+    public static final String MEAL_NAME = "mealName";
+
+    public void setMealName(String mealName){
+        put(MEAL_NAME, mealName);
+    }
+
+    public String getMealName(){
+        return getString(MEAL_NAME);
+    }
+}
