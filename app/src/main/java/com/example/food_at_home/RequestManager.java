@@ -3,7 +3,10 @@ package com.example.food_at_home;
 import android.content.Context;
 
 import com.example.food_at_home.Listeners.RandomRecipeResponseListener;
+import com.example.food_at_home.Listeners.RecipeClickListener;
+import com.example.food_at_home.Listeners.RecipeDetailsListener;
 import com.example.food_at_home.Models.RandomRecipeResponse;
+import com.example.food_at_home.Models.RecipeDetailsResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -11,6 +14,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public class RequestManager {
@@ -45,10 +49,36 @@ public class RequestManager {
         });
     }
 
+    public void getRecipeDetails(RecipeDetailsListener listener, int id){
+        CallRecipeDetails callRecipeDetails = retrofit.create(CallRecipeDetails.class);
+        Call<RecipeDetailsResponse> call = callRecipeDetails.callRecipeDetails(id, mContext.getString(R.string.api_key));
+        call.enqueue(new Callback<RecipeDetailsResponse>() {
+            @Override
+            public void onResponse(Call<RecipeDetailsResponse> call, Response<RecipeDetailsResponse> response) {
+                if (!response.isSuccessful()){
+                    listener.error(response.message());
+                    return;
+                }
+                listener.fetch(response.body(), response.message());
+            }
+
+            @Override
+            public void onFailure(Call<RecipeDetailsResponse> call, Throwable t) {
+                listener.error(t.getMessage());
+            }
+        });
+    }
+
     private interface CallRandomRecipes{
 
         // this is a get call
         @GET("recipes/random")
         Call<RandomRecipeResponse> callRandomRecipe(@Query("apiKey") String apiKey, @Query("number") String number);
+    }
+
+    private interface CallRecipeDetails{
+
+        @GET("recipes/{id}/information")
+        Call<RecipeDetailsResponse> callRecipeDetails(@Path("id") int id, @Query("apiKey") String apiKey);
     }
 }

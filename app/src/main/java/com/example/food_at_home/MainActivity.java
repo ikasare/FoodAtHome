@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.food_at_home.Adapters.RandomRecipeAdapter;
 import com.example.food_at_home.Listeners.RandomRecipeResponseListener;
+import com.example.food_at_home.Listeners.RecipeClickListener;
 import com.example.food_at_home.Models.RandomRecipeResponse;
 import com.example.food_at_home.Models.Recipe;
 import com.parse.ParseException;
@@ -66,11 +67,11 @@ public class MainActivity extends AppCompatActivity {
             recyclerView = findViewById(R.id.rvRandom);
             // set recycler view layout
             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-            adapter = new RandomRecipeAdapter(MainActivity.this, response.recipes);
+            adapter = new RandomRecipeAdapter(MainActivity.this, response.recipes, recipeClickListener);
             // set adapter onto rv
             recyclerView.setAdapter(adapter);
             // populate meal database with new meals fetched
-            saveMeals(response.recipes);
+            // saveMeals(response.recipes);
         }
 
         @Override
@@ -101,4 +102,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    private final RecipeClickListener recipeClickListener = new RecipeClickListener() {
+        @Override
+        public void onRecipeClickListener(String id) {
+            Intent intent = new Intent(MainActivity.this, RecipeDetailsActivity.class);
+            intent.putExtra("id", id);
+            startActivity(intent);
+        }
+    };
 }
