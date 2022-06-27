@@ -14,6 +14,20 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="250dp"
         android:text="Logout" />
+    <androidx.cardview.widget.CardView
+        app:cardElevation="8dp"
+        android:layout_margin="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/svSearch"
+            app:queryHint="Search by ingredient"
+            app:iconifiedByDefault="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </androidx.cardview.widget.CardView>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRandom"
