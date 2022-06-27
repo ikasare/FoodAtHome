@@ -1,6 +1,7 @@
 package com.example.food_at_home;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     RandomRecipeAdapter adapter;
     RecyclerView recyclerView;
     Button btnLogout;
+    SearchView searchView;
+    List<String> tags = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +45,27 @@ public class MainActivity extends AppCompatActivity {
         dialog.setTitle("Getting Meals...");
 
         manager = new RequestManager(this);
-        manager.getRandomRecipes(randomRecipeResponseListener);
+        manager.getRandomRecipes(randomRecipeResponseListener, tags);
         dialog.show();
 
         btnLogout = findViewById(R.id.btnLogout);
+        searchView = findViewById(R.id.svSearch);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                tags.clear();
+                tags.add(query);
+                manager.getRandomRecipes(randomRecipeResponseListener, tags);
+                dialog.show();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             // set adapter onto rv
             recyclerView.setAdapter(adapter);
             // populate meal database with new meals fetched
-            // saveMeals(response.recipes);
+            saveMeals(response.recipes);
         }
 
         @Override
@@ -111,4 +132,5 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
     };
+
 }

@@ -8,6 +8,8 @@ import com.example.food_at_home.Listeners.RecipeDetailsListener;
 import com.example.food_at_home.Models.RandomRecipeResponse;
 import com.example.food_at_home.Models.RecipeDetailsResponse;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,9 +29,9 @@ public class RequestManager {
     }
 
     // method to get random recipes for home feed
-    public void getRandomRecipes(RandomRecipeResponseListener listener){
+    public void getRandomRecipes(RandomRecipeResponseListener listener, List<String> tags){
         CallRandomRecipes callRandomRecipes = retrofit.create(CallRandomRecipes.class);
-        Call<RandomRecipeResponse> call = callRandomRecipes.callRandomRecipe(mContext.getString(R.string.api_key),"30" );
+        Call<RandomRecipeResponse> call = callRandomRecipes.callRandomRecipe(mContext.getString(R.string.api_key),"30", tags);
         // enqueue to make call asynchronously
         call.enqueue(new Callback<RandomRecipeResponse>() {
             @Override
@@ -73,7 +75,7 @@ public class RequestManager {
 
         // this is a get call
         @GET("recipes/random")
-        Call<RandomRecipeResponse> callRandomRecipe(@Query("apiKey") String apiKey, @Query("number") String number);
+        Call<RandomRecipeResponse> callRandomRecipe(@Query("apiKey") String apiKey, @Query("number") String number, @Query("tags")List<String> tags);
     }
 
     private interface CallRecipeDetails{
