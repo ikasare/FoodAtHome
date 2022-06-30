@@ -24,9 +24,11 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     ImageView ivMealImage;
     TextView tvMealSummary;
     RecyclerView rvIngredients;
+    RecyclerView rvSimilarMeals;
     RequestManager manager;
     ProgressDialog dialog;
     IngredientsAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         ivMealImage = findViewById(R.id.ivMealImage);
         tvMealSummary = findViewById(R.id.tvMealSummary);
         rvIngredients = findViewById(R.id.rvIngredients);
+        rvSimilarMeals = findViewById(R.id.rvSimilarMeals);
     }
 
     private final RecipeDetailsListener listener = new RecipeDetailsListener() {
