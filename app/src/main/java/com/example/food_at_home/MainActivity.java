@@ -44,9 +44,7 @@ public class MainActivity extends AppCompatActivity {
         dialog = new ProgressDialog(this);
         dialog.setTitle("Getting Meals...");
 
-        manager = new RequestManager(this);
-        manager.getRandomRecipes(randomRecipeResponseListener, tags);
-        dialog.show();
+       manager = new RequestManager(this);
 
         Button btnLogout = findViewById(R.id.btnLogout);
         SearchView searchView = findViewById(R.id.svSearch);
@@ -63,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 tags.clear();
                 tags.add(query);
-//                manager.getRandomRecipes(randomRecipeResponseListener, tags);
-//                dialog.show();
+                manager.getRandomRecipes(randomRecipeResponseListener, tags);
+                dialog.show();
                 return true;
             }
 

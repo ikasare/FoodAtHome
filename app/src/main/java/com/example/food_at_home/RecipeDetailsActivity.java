@@ -12,9 +12,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.food_at_home.Adapters.IngredientsAdapter;
+import com.example.food_at_home.Adapters.SimilarRecipeAdapter;
+import com.example.food_at_home.Listeners.RecipeClickListener;
 import com.example.food_at_home.Listeners.RecipeDetailsListener;
+import com.example.food_at_home.Listeners.SimilarRecipeListener;
 import com.example.food_at_home.Models.RecipeDetailsResponse;
+import com.example.food_at_home.Models.SimilarRecipeResponse;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 public class RecipeDetailsActivity extends AppCompatActivity {
 
@@ -28,6 +34,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     RequestManager manager;
     ProgressDialog dialog;
     IngredientsAdapter adapter;
+    SimilarRecipeAdapter similarRecipeAdapter;
 
 
     @Override
@@ -40,6 +47,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         id = Integer.parseInt(getIntent().getStringExtra("id"));
         manager = new RequestManager(this);
         manager.getRecipeDetails(listener, id);
+        manager.getSimilarRecipe(similarRecipeListener, id);
         dialog = new ProgressDialog(this);
         dialog.setTitle("Getting Details...");
         dialog.show();
@@ -79,6 +87,32 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         @Override
         public void error(String message) {
             Toast.makeText(RecipeDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    private final SimilarRecipeListener similarRecipeListener = new SimilarRecipeListener() {
+        @Override
+        public void fetch(List<SimilarRecipeResponse> response, String message) {
+            rvSimilarMeals.setHasFixedSize(true);
+            rvSimilarMeals.setLayoutManager(new LinearLayoutManager(RecipeDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false));
+            similarRecipeAdapter = new SimilarRecipeAdapter(RecipeDetailsActivity.this, response, recipeClickListener);
+            rvSimilarMeals.setAdapter(similarRecipeAdapter);
+
+        }
+
+        @Override
+        public void error(String message) {
+            Toast.makeText(RecipeDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    private final RecipeClickListener recipeClickListener = new RecipeClickListener() {
+        @Override
+        public void onRecipeClickListener(String id) {
+            Intent intent = new Intent(RecipeDetailsActivity.this, RecipeDetailsActivity.class);
+            intent.putExtra("id", id);
+            startActivity(intent);
+
         }
     };
 }
