@@ -5,8 +5,10 @@ import android.content.Context;
 import com.example.food_at_home.Listeners.RandomRecipeResponseListener;
 import com.example.food_at_home.Listeners.RecipeClickListener;
 import com.example.food_at_home.Listeners.RecipeDetailsListener;
+import com.example.food_at_home.Listeners.SimilarRecipeListener;
 import com.example.food_at_home.Models.RandomRecipeResponse;
 import com.example.food_at_home.Models.RecipeDetailsResponse;
+import com.example.food_at_home.Models.SimilarRecipeResponse;
 
 import java.util.List;
 
@@ -71,6 +73,26 @@ public class RequestManager {
         });
     }
 
+    public void getSimilarRecipe(SimilarRecipeListener listener, int id){
+        CallSimilarRecipe callSimilarRecipe = retrofit.create(CallSimilarRecipe.class);
+        Call<List<SimilarRecipeResponse>> call = callSimilarRecipe.callSimilarRecipe(id, "5", mContext.getString(R.string.api_key));
+        call.enqueue(new Callback<List<SimilarRecipeResponse>>() {
+            @Override
+            public void onResponse(Call<List<SimilarRecipeResponse>> call, Response<List<SimilarRecipeResponse>> response) {
+                if (!response.isSuccessful()){
+                    listener.error(response.message());
+                    return;
+                }
+                listener.fetch(response.body(), response.message());
+            }
+
+            @Override
+            public void onFailure(Call<List<SimilarRecipeResponse>> call, Throwable t) {
+                listener.error(t.getMessage());
+            }
+        });
+    }
+
     private interface CallRandomRecipes{
 
         // this is a get call
@@ -82,5 +104,10 @@ public class RequestManager {
 
         @GET("recipes/{id}/information")
         Call<RecipeDetailsResponse> callRecipeDetails(@Path("id") int id, @Query("apiKey") String apiKey);
+    }
+
+    private interface CallSimilarRecipe{
+        @GET("recipes/{id}/similar")
+        Call<List<SimilarRecipeResponse>> callSimilarRecipe(@Path("id") int id, @Query("number") String number, @Query("apiKey") String apiKey);
     }
 }
