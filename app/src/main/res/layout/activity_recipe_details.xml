@@ -58,9 +58,16 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:text="Summary"
+                android:maxLines="5"
                 android:textColor="@color/blue"
                 android:textSize="15sp"
                 android:textStyle="normal" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvInstructions"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

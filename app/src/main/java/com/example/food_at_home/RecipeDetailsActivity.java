@@ -31,6 +31,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     TextView tvMealSummary;
     RecyclerView rvIngredients;
     RecyclerView rvSimilarMeals;
+    RecyclerView rvInstructions;
     RequestManager manager;
     ProgressDialog dialog;
     IngredientsAdapter adapter;
@@ -62,6 +63,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         tvMealSummary = findViewById(R.id.tvMealSummary);
         rvIngredients = findViewById(R.id.rvIngredients);
         rvSimilarMeals = findViewById(R.id.rvSimilarMeals);
+        rvInstructions = findViewById(R.id.rvInstructions);
     }
 
     private final RecipeDetailsListener listener = new RecipeDetailsListener() {
