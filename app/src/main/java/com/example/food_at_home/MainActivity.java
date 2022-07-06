@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         dialog = new ProgressDialog(this);
         dialog.setTitle("Getting Meals...");
 
-       manager = new RequestManager(this);
+        manager = new RequestManager(this);
 
         Button btnLogout = findViewById(R.id.btnLogout);
         SearchView searchView = findViewById(R.id.svSearch);
@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         public void error(String message) {
             dialog.dismiss();
             Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+            Log.e("Main", message);
         }
     };
 
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             tags.clear();
             tags.add(parent.getSelectedItem().toString());
-            manager.getRandomRecipes(randomRecipeResponseListener,tags);
+            manager.getRandomRecipes(randomRecipeResponseListener, tags);
             dialog.show();
         }
 
