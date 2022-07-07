@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
         public void error(String message) {
             dialog.dismiss();
             Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
-            Log.e("Main", message);
         }
     };
 
