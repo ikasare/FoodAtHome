@@ -12,10 +12,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.food_at_home.Adapters.IngredientsAdapter;
+import com.example.food_at_home.Adapters.InstructionStepAdapter;
+import com.example.food_at_home.Adapters.InstructionsAdapter;
 import com.example.food_at_home.Adapters.SimilarRecipeAdapter;
+import com.example.food_at_home.Listeners.InstructionsListener;
 import com.example.food_at_home.Listeners.RecipeClickListener;
 import com.example.food_at_home.Listeners.RecipeDetailsListener;
 import com.example.food_at_home.Listeners.SimilarRecipeListener;
+import com.example.food_at_home.Models.InstructionsResponse;
 import com.example.food_at_home.Models.RecipeDetailsResponse;
 import com.example.food_at_home.Models.SimilarRecipeResponse;
 import com.squareup.picasso.Picasso;
@@ -36,6 +40,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     ProgressDialog dialog;
     IngredientsAdapter adapter;
     SimilarRecipeAdapter similarRecipeAdapter;
+    InstructionsAdapter instructionsAdapter;
 
 
     @Override
@@ -49,6 +54,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         manager = new RequestManager(this);
         manager.getRecipeDetails(listener, id);
         manager.getSimilarRecipe(similarRecipeListener, id);
+        manager.getInstructions(instructionsListener, id);
         dialog = new ProgressDialog(this);
         dialog.setTitle("Getting Details...");
         dialog.show();
@@ -114,6 +120,21 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             Intent intent = new Intent(RecipeDetailsActivity.this, RecipeDetailsActivity.class);
             intent.putExtra("id", id);
             startActivity(intent);
+
+        }
+    };
+
+    private final InstructionsListener instructionsListener = new InstructionsListener() {
+        @Override
+        public void fetch(List<InstructionsResponse> response, String message) {
+            rvInstructions.setHasFixedSize(true);
+            rvInstructions.setLayoutManager(new LinearLayoutManager(RecipeDetailsActivity.this, LinearLayoutManager.VERTICAL, false));
+            instructionsAdapter = new InstructionsAdapter(RecipeDetailsActivity.this, response);
+            rvInstructions.setAdapter(instructionsAdapter);
+        }
+
+        @Override
+        public void error(String message) {
 
         }
     };
