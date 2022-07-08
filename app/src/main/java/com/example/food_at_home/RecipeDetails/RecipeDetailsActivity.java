@@ -135,4 +135,5 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
         }
     };
+
 }
