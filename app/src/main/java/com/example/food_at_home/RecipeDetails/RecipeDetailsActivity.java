@@ -132,7 +132,6 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
         @Override
         public void error(String message) {
-
         }
     };
 }
