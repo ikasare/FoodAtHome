@@ -24,6 +24,8 @@ import com.example.food_at_home.Models.RecipeDetailsResponse;
 import com.example.food_at_home.Models.SimilarRecipeResponse;
 import com.squareup.picasso.Picasso;
 
+import org.jsoup.Jsoup;
+
 import java.util.List;
 
 public class RecipeDetailsActivity extends AppCompatActivity {
@@ -81,7 +83,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             String sourceName = response.sourceName;
             tvMealSource.setText(sourceName);
             String summary = response.summary;
-            tvMealSummary.setText(summary);
+            tvMealSummary.setText(Jsoup.parse(summary).text());
             Picasso.get().load(response.image).into(ivMealImage);
 
             rvIngredients.setHasFixedSize(true);
