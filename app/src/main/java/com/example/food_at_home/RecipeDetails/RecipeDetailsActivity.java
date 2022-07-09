@@ -7,10 +7,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.food_at_home.Comments.CommentsActivity;
 import com.example.food_at_home.R;
 import com.example.food_at_home.SimilarRecipe.SimilarRecipeAdapter;
 import com.example.food_at_home.Common.RequestManager;
@@ -30,6 +33,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     TextView tvMealSource;
     ImageView ivMealImage;
     TextView tvMealSummary;
+    ImageButton ibReview;
     RecyclerView rvIngredients;
     RecyclerView rvSimilarMeals;
     RecyclerView rvInstructions;
@@ -56,6 +60,14 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         dialog.setTitle("Getting Details...");
         dialog.show();
 
+        ibReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RecipeDetailsActivity.this, CommentsActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 
@@ -67,6 +79,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         rvIngredients = findViewById(R.id.rvIngredients);
         rvSimilarMeals = findViewById(R.id.rvSimilarMeals);
         rvInstructions = findViewById(R.id.rvInstructions);
+        ibReview = findViewById(R.id.ibReview);
     }
 
     private final RecipeDetailsListener listener = new RecipeDetailsListener() {
