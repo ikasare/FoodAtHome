@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">FoodAtHome</string>
     <string name="api_key">9b6d39b88d94417cb20a3d1bca2a0acc</string>
+    <string name="see_reviews">See Reviews</string>
+    <string name="description">Description</string>
+    <string name="username">Username</string>
 
     <string-array name="tags">
         <item>main course</item>

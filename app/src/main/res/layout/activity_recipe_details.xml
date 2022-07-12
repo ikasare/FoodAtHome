@@ -11,7 +11,32 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:title="Recipe Details"
-        app:titleTextColor="@color/blue" />
+        app:titleTextColor="@color/blue"
+        android:background="#C0C0C0">
+
+
+
+        <ImageButton
+
+            android:id="@+id/ibReview"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="200dp"
+            android:backgroundTint="#2196F3"
+            android:src="@android:drawable/ic_menu_edit" />
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ImageButton
+        android:id="@+id/btnSeeReviews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="340dp"
+        android:backgroundTint="#2196F3"
+        android:padding="8dp"
+        android:src="@android:drawable/ic_menu_compass"
+        android:text="@string/see_reviews" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -65,9 +90,10 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvInstructions"
-                android:layout_margin="8dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
