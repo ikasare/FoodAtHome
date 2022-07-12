@@ -6,14 +6,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.food_at_home.Comments.CommentsActivity;
+import com.example.food_at_home.Comments.CommentsFeed;
 import com.example.food_at_home.R;
 import com.example.food_at_home.SimilarRecipe.SimilarRecipeAdapter;
 import com.example.food_at_home.Common.RequestManager;
@@ -39,6 +42,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     RecyclerView rvInstructions;
     RequestManager manager;
     ProgressDialog dialog;
+    ImageButton btnSeeReviews;
     IngredientsAdapter adapter;
     SimilarRecipeAdapter similarRecipeAdapter;
     InstructionsAdapter instructionsAdapter;
@@ -64,10 +68,18 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RecipeDetailsActivity.this, CommentsActivity.class);
+                intent.putExtra("id", getIntent().getStringExtra("id"));
                 startActivity(intent);
             }
         });
 
+        btnSeeReviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RecipeDetailsActivity.this, CommentsFeed.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -80,6 +92,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         rvSimilarMeals = findViewById(R.id.rvSimilarMeals);
         rvInstructions = findViewById(R.id.rvInstructions);
         ibReview = findViewById(R.id.ibReview);
+        btnSeeReviews = findViewById(R.id.btnSeeReviews);
     }
 
     private final RecipeDetailsListener listener = new RecipeDetailsListener() {

@@ -7,6 +7,9 @@
         <entry key="app/src/main/res/drawable-v24/ic_vector_person.xml" value="0.168" />
         <entry key="app/src/main/res/drawable/ic_baseline_access_time_filled_24.xml" value="0.168" />
         <entry key="app/src/main/res/drawable/ic_baseline_group_24.xml" value="0.231" />
+        <entry key="app/src/main/res/drawable/roundedbutton.xml" value="0.5485" />
+        <entry key="app/src/main/res/layout/activity_comments.xml" value="0.6453703703703704" />
+        <entry key="app/src/main/res/layout/activity_comments_feed.xml" value="0.5851851851851851" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.38256410256410256" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3243606567382813" />
         <entry key="app/src/main/res/layout/activity_recipe_details.xml" value="0.3972222222222222" />
@@ -19,6 +22,7 @@
         <entry key="app/src/main/res/layout/similar_recipe.xml" value="0.40260416666666665" />
         <entry key="app/src/main/res/layout/spinner_drop_text.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/spinner_text.xml" value="0.40260416666666665" />
+        <entry key="app/src/main/res/xml/fileprovider.xml" value="0.70625" />
       </map>
     </option>
   </component>

@@ -111,10 +111,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void saveMeals(ArrayList<Recipe> recipes) {
         for (Recipe i : recipes) {
+            String mealID = String.valueOf(i.id);
             String mealName = i.title;
             Meal meal = new Meal();
+            meal.setMealID(mealID);
             meal.setMealName(mealName);
-            if (meal.has(mealName)) {
+            if (meal.has(mealID)) {
                 continue;
             } else {
                 meal.saveInBackground(new SaveCallback() {
