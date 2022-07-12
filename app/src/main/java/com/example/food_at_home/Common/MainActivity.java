@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             // set adapter onto rv
             recyclerView.setAdapter(adapter);
             // populate meal database with new meals fetched
-            // saveMeals(response.recipes);
+            saveMeals(response.recipes);
         }
 
         @Override

@@ -77,6 +77,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RecipeDetailsActivity.this, CommentsFeed.class);
+                intent.putExtra("id", getIntent().getStringExtra("id"));
                 startActivity(intent);
             }
         });

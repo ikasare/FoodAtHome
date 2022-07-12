@@ -11,7 +11,7 @@ public class Post extends ParseObject {
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_IMAGE = "photo";
     public static final String KEY_USER = "user";
-    public static final String KEY_MEAL = "mealID";
+    public static final String KEY_MEAL = "post_meal";
     public static final String KEY_CREATED_KEY = "createdAt";
 
     public String getDescription() {
@@ -38,11 +38,11 @@ public class Post extends ParseObject {
         put(KEY_USER, user);
     }
 
-    public String getMealID() {
+    public String getPostMealID() {
         return getString(KEY_MEAL);
     }
 
-    public void setMealID(String mealID) {
+    public void setPostMealID(String mealID) {
         put(KEY_MEAL, mealID);
     }
 

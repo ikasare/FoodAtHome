@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:title="Recipe Details"
-        app:titleTextColor="@color/blue">
+        app:titleTextColor="@color/blue"
+        android:background="#C0C0C0">
 
 
 

@@ -56,6 +56,7 @@ public class CommentsActivity extends AppCompatActivity {
 
         id = getIntent().getStringExtra("id");
 
+
         // queryComments();
 
         ibTakePicture.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +139,7 @@ public class CommentsActivity extends AppCompatActivity {
     private void savePost(String description, ParseUser currentUser, String id, File photoFile) {
         Post post = new Post();
         post.setDescription(description);
-        post.setMealID(id);
+        post.setPostMealID(id);
         post.setImage(new ParseFile(photoFile));
         post.setUser(currentUser);
         post.saveInBackground(new SaveCallback() {
@@ -169,7 +170,7 @@ public class CommentsActivity extends AppCompatActivity {
                     return;
                 }
                 for (Post post : posts){
-                    Log.i("CommentsActivity", "Post: " + post.getDescription() + post.getMealID() + post.getUser().getUsername());
+                    Log.i("CommentsActivity", "Post: " + post.getDescription() + post.getPostMealID() + post.getUser().getUsername());
                 }
             }
         });
