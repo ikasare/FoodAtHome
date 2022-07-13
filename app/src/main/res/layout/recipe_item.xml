@@ -6,7 +6,10 @@
     app:cardBackgroundColor="@color/white"
     app:cardElevation="8dp"
     android:layout_margin="8dp"
-    android:id="@+id/cvRandomRecipe">
+    android:id="@+id/cvRandomRecipe"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +35,8 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:layout_margin="8dp"/>
+            android:layout_margin="8dp"
+            android:transitionName="food"/>
 
         <LinearLayout
             android:layout_width="match_parent"

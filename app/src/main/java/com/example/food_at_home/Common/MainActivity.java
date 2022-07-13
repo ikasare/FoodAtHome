@@ -2,6 +2,7 @@ package com.example.food_at_home.Common;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         dialog = new ProgressDialog(this);
         dialog.setTitle("Getting Meals...");
@@ -139,7 +142,8 @@ public class MainActivity extends AppCompatActivity {
         public void onRecipeClickListener(String id) {
             Intent intent = new Intent(MainActivity.this, RecipeDetailsActivity.class);
             intent.putExtra("id", id);
-            startActivity(intent);
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, (View) findViewById(R.id.ivFoodPhoto), "food");
+            startActivity(intent, options.toBundle());
         }
     };
 
