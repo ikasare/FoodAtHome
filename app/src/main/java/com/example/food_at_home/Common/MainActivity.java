@@ -143,7 +143,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, RecipeDetailsActivity.class);
             intent.putExtra("id", id);
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, (View) findViewById(R.id.ivFoodPhoto), "food");
-            startActivity(intent, options.toBundle());
+            startActivity(intent);
+            overridePendingTransition(R.anim.right_in, R.anim.left_out);
         }
     };
 
