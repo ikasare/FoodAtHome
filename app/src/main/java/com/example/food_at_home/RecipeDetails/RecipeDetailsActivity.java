@@ -70,6 +70,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                 Intent intent = new Intent(RecipeDetailsActivity.this, CommentsActivity.class);
                 intent.putExtra("id", getIntent().getStringExtra("id"));
                 startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
         });
 
@@ -79,9 +80,17 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                 Intent intent = new Intent(RecipeDetailsActivity.this, CommentsFeed.class);
                 intent.putExtra("id", getIntent().getStringExtra("id"));
                 startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        overridePendingTransition(R.anim.left_in, R.anim.right_out);
     }
 
     private void initializeViews() {

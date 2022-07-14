@@ -175,4 +175,11 @@ public class CommentsActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        overridePendingTransition(R.anim.left_in, R.anim.right_out);
+    }
 }

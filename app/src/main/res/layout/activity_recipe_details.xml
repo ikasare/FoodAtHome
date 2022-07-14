@@ -75,7 +75,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_margin="8dp"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:transitionName="food"/>
 
             <TextView
                 android:id="@+id/tvMealSummary"
@@ -99,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="Similar Recipes"
+                android:text="Similar Meals"
                 android:textColor="@color/blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
