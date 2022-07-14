@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
             Meal meal = new Meal();
             meal.setMealID(mealID);
             meal.setMealName(mealName);
-            if (meal.has(mealID)) {
+            if (meal.containsKey(mealID)) {
                 continue;
             } else {
                 meal.saveInBackground(new SaveCallback() {
