@@ -35,7 +35,7 @@ public class RequestManager {
     // method to get random recipes for home feed
     public void getRandomRecipes(RandomRecipeResponseListener listener, List<String> tags){
         CallRandomRecipes callRandomRecipes = retrofit.create(CallRandomRecipes.class);
-        Call<RandomRecipeResponse> call = callRandomRecipes.callRandomRecipe(mContext.getString(R.string.api_key),"30", tags);
+        Call<RandomRecipeResponse> call = callRandomRecipes.callRandomRecipe(mContext.getString(R.string.api_key),"15", tags);
         // enqueue to make call asynchronously
         call.enqueue(new Callback<RandomRecipeResponse>() {
             @Override

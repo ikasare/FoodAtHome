@@ -5,6 +5,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -38,13 +39,16 @@ public class MainActivity extends AppCompatActivity {
     private RequestManager manager;
     private Spinner spinner;
     private List<String> tags = new ArrayList<>();
+    private List<Recipe> recipeList = new ArrayList<>();
+    private SwipeRefreshLayout swipeContainer;
+    RandomRecipeAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         dialog = new ProgressDialog(this);
         dialog.setTitle("Getting Meals...");
 
@@ -59,7 +63,17 @@ public class MainActivity extends AppCompatActivity {
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(spinnerListener);
 
-
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                manager.getRandomRecipes(randomRecipeResponseListener, tags);
+                swipeContainer.setRefreshing(false);
+            }
+        });
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -94,11 +108,13 @@ public class MainActivity extends AppCompatActivity {
         public void fetch(RandomRecipeResponse response, String message) {
             // dismiss dialog
             dialog.dismiss();
+            recipeList.clear();
+            recipeList.addAll(response.recipes);
             // initialize recycler view
             RecyclerView recyclerView = findViewById(R.id.rvRandom);
             // set recycler view layout
             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-            RandomRecipeAdapter adapter = new RandomRecipeAdapter(MainActivity.this, response.recipes, recipeClickListener);
+            adapter = new RandomRecipeAdapter(MainActivity.this, recipeList, recipeClickListener);
             // set adapter onto rv
             recyclerView.setAdapter(adapter);
             // populate meal database with new meals fetched
