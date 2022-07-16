@@ -54,13 +54,17 @@
             app:queryHint="Search by ingredient" />
     </androidx.cardview.widget.CardView>
 
-
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRandom"
         android:layout_width="match_parent"
         android:layout_height="580dp"
         android:layout_margin="5dp" />
 
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
