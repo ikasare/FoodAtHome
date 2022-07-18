@@ -2,6 +2,8 @@ package com.example.food_at_home.Common;
 
 import android.content.Context;
 
+import com.example.food_at_home.RandomRecipes.SearchRecipeListener;
+import com.example.food_at_home.RandomRecipes.SearchRecipeResponse;
 import com.example.food_at_home.RecipeDetails.InstructionsListener;
 import com.example.food_at_home.RandomRecipes.RandomRecipeResponseListener;
 import com.example.food_at_home.RecipeDetails.RecipeDetailsListener;
@@ -115,6 +117,26 @@ public class RequestManager {
         });
     }
 
+    public void getSearchRecipes(SearchRecipeListener listener, String query){
+        CallSearchRecipe callSearchRecipe = retrofit.create(CallSearchRecipe.class);
+        Call<SearchRecipeResponse> call = callSearchRecipe.callSearchRecipe(query, mContext.getString(R.string.api_key));
+        call.enqueue(new Callback<SearchRecipeResponse>() {
+            @Override
+            public void onResponse(Call<SearchRecipeResponse> call, Response<SearchRecipeResponse> response) {
+                if (!response.isSuccessful()){
+                    listener.error(response.message());
+                    return;
+                }
+                listener.fetch(response.body(), response.message());
+            }
+
+            @Override
+            public void onFailure(Call<SearchRecipeResponse> call, Throwable t) {
+                listener.error(t.getMessage());
+            }
+        });
+    }
+
     private interface CallRandomRecipes{
 
         // this is a get call
@@ -136,5 +158,10 @@ public class RequestManager {
     private interface CallInstructions{
         @GET("recipes/{id}/analyzedInstructions")
         Call<List<InstructionsResponse>> callInstructions(@Path("id") int id, @Query("apiKey") String apiKey);
+    }
+
+    private interface CallSearchRecipe{
+        @GET("recipes/complexSearch")
+        Call<SearchRecipeResponse> callSearchRecipe(@Query("query") String query, @Query("apiKey") String apiKey);
     }
 }
