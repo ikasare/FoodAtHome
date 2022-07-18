@@ -10,6 +10,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,6 +25,9 @@ import com.example.food_at_home.Parse.Meal;
 import com.example.food_at_home.RandomRecipes.RandomRecipeResponse;
 import com.example.food_at_home.RandomRecipes.Recipe;
 import com.example.food_at_home.R;
+import com.example.food_at_home.RandomRecipes.SearchRecipeAdapter;
+import com.example.food_at_home.RandomRecipes.SearchRecipeListener;
+import com.example.food_at_home.RandomRecipes.SearchRecipeResponse;
 import com.example.food_at_home.RecipeDetails.RecipeDetailsActivity;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -41,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     private List<String> tags = new ArrayList<>();
     private List<Recipe> recipeList = new ArrayList<>();
     private SwipeRefreshLayout swipeContainer;
-    RandomRecipeAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +77,11 @@ public class MainActivity extends AppCompatActivity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                tags.clear();
-                tags.add(query);
-                manager.getRandomRecipes(randomRecipeResponseListener, tags);
+                manager.getSearchRecipes(searchRecipeListener, query);
                 dialog.show();
                 return true;
             }
@@ -114,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             RecyclerView recyclerView = findViewById(R.id.rvRandom);
             // set recycler view layout
             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-            adapter = new RandomRecipeAdapter(MainActivity.this, recipeList, recipeClickListener);
+            RandomRecipeAdapter adapter = new RandomRecipeAdapter(MainActivity.this, recipeList, recipeClickListener);
             // set adapter onto rv
             recyclerView.setAdapter(adapter);
             // populate meal database with new meals fetched
@@ -125,6 +127,23 @@ public class MainActivity extends AppCompatActivity {
         public void error(String message) {
             dialog.dismiss();
             Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    private final SearchRecipeListener searchRecipeListener = new SearchRecipeListener() {
+        @Override
+        public void fetch(SearchRecipeResponse response, String message) {
+            dialog.dismiss();
+            RecyclerView recyclerView = findViewById(R.id.rvRandom);
+            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+            Log.i("Search Results", response.results.toString());
+            SearchRecipeAdapter adapter = new SearchRecipeAdapter(MainActivity.this, response.results, recipeClickListener);
+            recyclerView.setAdapter(adapter);
+        }
+
+        @Override
+        public void error(String message) {
+
         }
     };
 
