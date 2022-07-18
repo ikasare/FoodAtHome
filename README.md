@@ -32,10 +32,10 @@ This app will give users access to recipes from all over the world, including th
 * Users can navigate from list of recipes to see recipe details, and ingredients
 
 **Optional Nice-to-have Stories**
-* Endless scrolling through recipes
+* Endless scrolling through recipes/pull to refresh
 * Users can upload a finished picture of their meal
 * Users can select from specific food type eg:soups
-* Recipes will have a video walkthrough
+
 
 
 ### 2. Screen Archetypes
