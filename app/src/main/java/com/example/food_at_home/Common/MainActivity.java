@@ -29,12 +29,15 @@ import com.example.food_at_home.RandomRecipes.SearchRecipeAdapter;
 import com.example.food_at_home.RandomRecipes.SearchRecipeListener;
 import com.example.food_at_home.RandomRecipes.SearchRecipeResponse;
 import com.example.food_at_home.RecipeDetails.RecipeDetailsActivity;
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
     private List<String> tags = new ArrayList<>();
     private List<Recipe> recipeList = new ArrayList<>();
     private SwipeRefreshLayout swipeContainer;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
             dialog.dismiss();
             RecyclerView recyclerView = findViewById(R.id.rvRandom);
             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-            Log.i("Search Results", response.results.toString());
             SearchRecipeAdapter adapter = new SearchRecipeAdapter(MainActivity.this, response.results, recipeClickListener);
             recyclerView.setAdapter(adapter);
         }
@@ -152,23 +153,40 @@ public class MainActivity extends AppCompatActivity {
             String mealID = String.valueOf(i.id);
             String mealName = i.title;
             Meal meal = new Meal();
-            meal.setMealID(mealID);
-            meal.setMealName(mealName);
-            if (meal.containsKey(mealID)) {
-                continue;
-            } else {
-                meal.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e != null) {
-                            Toast.makeText(MainActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
-                            return;
+            ParseQuery<Meal> query = ParseQuery.getQuery(Meal.class);
+            query.include(Meal.MEAL_ID);
+            query.include(Meal.MEAL_NAME);
+
+
+            query.findInBackground(new FindCallback<Meal>() {
+                @Override
+                public void done(List<Meal> meals, ParseException e) {
+                    boolean saved = false;
+                    if (e != null) {
+                        Log.e("MainActivity", "Error getting posts", e);
+                        return;
+                    }
+                    for (Meal savedMeal : meals) {
+                        if (Objects.equals(savedMeal.getMealID(), mealID)) {
+                            saved = true;
+                            break;
                         }
                     }
-
-
-                });
-            }
+                    if (!saved) {
+                        meal.setMealID(mealID);
+                        meal.setMealName(mealName);
+                        meal.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e != null) {
+                                    Toast.makeText(MainActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            }
+                        });
+                    }
+                }
+            });
         }
     }
 

@@ -7,7 +7,7 @@ import com.parse.ParseObject;
 
 public class Meal  extends ParseObject {
 
-    private static final String MEAL_NAME = "mealName" ;
+    public static final String MEAL_NAME = "mealName" ;
     public static final String MEAL_ID = "mealID";
     //  default constructor
     public Meal() {
