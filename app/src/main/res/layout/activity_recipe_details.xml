@@ -10,10 +10,9 @@
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="#C0C0C0"
         app:title="Recipe Details"
-        app:titleTextColor="@color/blue"
-        android:background="#C0C0C0">
-
+        app:titleTextColor="@color/blue">
 
 
         <ImageButton
@@ -28,15 +27,30 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <ImageButton
-        android:id="@+id/btnSeeReviews"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="340dp"
-        android:backgroundTint="#2196F3"
-        android:padding="8dp"
-        android:src="@android:drawable/ic_menu_compass"
-        android:text="@string/see_reviews" />
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/ibBookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FFFFFF"
+            android:src="@android:drawable/btn_star_big_off" />
+
+        <ImageButton
+            android:id="@+id/btnSeeReviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="290dp"
+            android:backgroundTint="#2196F3"
+            android:padding="8dp"
+            android:src="@android:drawable/ic_menu_compass"
+            android:text="@string/see_reviews" />
+
+    </LinearLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -76,15 +90,15 @@
                 android:layout_height="250dp"
                 android:layout_margin="8dp"
                 android:scaleType="centerCrop"
-                android:transitionName="food"/>
+                android:transitionName="food" />
 
             <TextView
                 android:id="@+id/tvMealSummary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="Summary"
                 android:maxLines="5"
+                android:text="Summary"
                 android:textColor="@color/blue"
                 android:textSize="15sp"
                 android:textStyle="normal" />
@@ -107,9 +121,9 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvSimilarMeals"
-                android:layout_margin="8dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -120,12 +134,12 @@
                 android:textColor="@color/blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvIngredients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                />
+                android:layout_margin="8dp" />
 
         </LinearLayout>
 

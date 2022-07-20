@@ -37,6 +37,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     ImageView ivMealImage;
     TextView tvMealSummary;
     ImageButton ibReview;
+    ImageButton ibBookmark;
     RecyclerView rvIngredients;
     RecyclerView rvSimilarMeals;
     RecyclerView rvInstructions;
@@ -84,6 +85,13 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             }
         });
 
+        ibBookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
     @Override
@@ -103,6 +111,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         rvInstructions = findViewById(R.id.rvInstructions);
         ibReview = findViewById(R.id.ibReview);
         btnSeeReviews = findViewById(R.id.btnSeeReviews);
+        ibBookmark = findViewById(R.id.ibBookmark);
     }
 
     private final RecipeDetailsListener listener = new RecipeDetailsListener() {
