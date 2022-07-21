@@ -96,14 +96,6 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="230dp"
-            android:gravity="center"
-            android:text="Logout" />
     </androidx.appcompat.widget.Toolbar>
 
 

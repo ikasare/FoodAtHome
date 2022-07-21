@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -17,17 +19,26 @@ import android.widget.Toast;
 
 import com.example.food_at_home.Comments.CommentsActivity;
 import com.example.food_at_home.Comments.CommentsFeed;
+import com.example.food_at_home.Parse.Bookmarks;
 import com.example.food_at_home.R;
+import com.example.food_at_home.RandomRecipes.Recipe;
 import com.example.food_at_home.SimilarRecipe.SimilarRecipeAdapter;
 import com.example.food_at_home.Common.RequestManager;
 import com.example.food_at_home.Common.RecipeClickListener;
 import com.example.food_at_home.SimilarRecipe.SimilarRecipeListener;
 import com.example.food_at_home.SimilarRecipe.SimilarRecipeResponse;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RecipeDetailsActivity extends AppCompatActivity {
 
@@ -47,6 +58,8 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     IngredientsAdapter adapter;
     SimilarRecipeAdapter similarRecipeAdapter;
     InstructionsAdapter instructionsAdapter;
+    boolean isBookmarked = false;
+    List<RecipeDetailsResponse> list = new ArrayList<>();
 
 
     @Override
@@ -61,6 +74,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         manager.getRecipeDetails(listener, id);
         manager.getSimilarRecipe(similarRecipeListener, id);
         manager.getInstructions(instructionsListener, id);
+        checkBookmarked();
         dialog = new ProgressDialog(this);
         dialog.setTitle("Getting Details...");
         dialog.show();
@@ -88,6 +102,54 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         ibBookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!isBookmarked){
+                    Drawable newImage1 = RecipeDetailsActivity.this.getDrawable(android.R.drawable.btn_star_big_on);
+                    ibBookmark.setImageDrawable(newImage1);
+                    saveBookmark(list);
+                }else{
+                    Drawable newImage2 = RecipeDetailsActivity.this.getDrawable(android.R.drawable.btn_star_big_off);
+                    ibBookmark.setImageDrawable(newImage2);
+                }
+
+            }
+        });
+
+    }
+
+    private void saveBookmark(List<RecipeDetailsResponse> list) {
+        RecipeDetailsResponse item = list.get(0);
+        Bookmarks bookmarks = new Bookmarks();
+        bookmarks.setBookmarkTitle(item.title);
+        bookmarks.setBookmarkId(String.valueOf(id));
+        bookmarks.setUser(ParseUser.getCurrentUser());
+        bookmarks.setBookmarkPhoto(item.image);
+        bookmarks.saveInBackground();
+    }
+
+    private void checkBookmarked() {
+        ParseQuery<Bookmarks> query = ParseQuery.getQuery(Bookmarks.class);
+        query.include(Bookmarks.BOOKMARK_TITLE);
+        query.include(Bookmarks.BOOKMARK_ID);
+        query.include(Bookmarks.BOOKMARK_USER);
+        query.whereEqualTo(Bookmarks.BOOKMARK_USER, ParseUser.getCurrentUser());
+        query.findInBackground(new FindCallback<Bookmarks>() {
+            @Override
+            public void done(List<Bookmarks> bookmarksList, ParseException e) {
+                if (e != null){
+                    Toast.makeText(RecipeDetailsActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+                for (Bookmarks bookmark : bookmarksList){
+                    if (Objects.equals(bookmark.getBookmarkId(), String.valueOf(id))){
+                        isBookmarked = true;
+                        break;
+                    }
+                }
+                if(isBookmarked){
+                    Drawable newImage = RecipeDetailsActivity.this.getDrawable(android.R.drawable.btn_star_big_on);
+                    ibBookmark.setImageDrawable(newImage);
+                }
 
             }
         });
@@ -118,6 +180,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         @Override
         public void fetch(RecipeDetailsResponse response, String message) {
             dialog.dismiss();
+            list.add(response);
             String mealName = response.title;
             tvMealName.setText(mealName);
             String sourceName = response.sourceName;
@@ -130,8 +193,6 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             rvIngredients.setLayoutManager(new LinearLayoutManager(RecipeDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false));
             adapter = new IngredientsAdapter(RecipeDetailsActivity.this, response.extendedIngredients);
             rvIngredients.setAdapter(adapter);
-
-
         }
 
         @Override

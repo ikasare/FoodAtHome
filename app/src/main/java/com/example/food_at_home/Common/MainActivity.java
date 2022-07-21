@@ -17,8 +17,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.food_at_home.Bookmarks.PersonalActivity;
 import com.example.food_at_home.RandomRecipes.RandomRecipeAdapter;
 import com.example.food_at_home.RandomRecipes.RandomRecipeResponseListener;
 import com.example.food_at_home.Parse.Meal;
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
     private ProgressDialog dialog;
     private RequestManager manager;
+    private ImageView ivProfilePhoto;
+    private TextView tvName;
     private Spinner spinner;
     private List<String> tags = new ArrayList<>();
     private List<Recipe> recipeList = new ArrayList<>();
@@ -54,12 +58,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        ivProfilePhoto = findViewById(R.id.ivProfilePhoto);
+        tvName = findViewById(R.id.tvName);
         dialog = new ProgressDialog(this);
         dialog.setTitle("Getting Meals...");
-
         manager = new RequestManager(this);
 
-        Button btnLogout = findViewById(R.id.btnLogout);
         SearchView searchView = findViewById(R.id.svSearch);
 
         spinner = findViewById(R.id.spnSpinner);
@@ -94,16 +98,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnLogout.setOnClickListener(new View.OnClickListener() {
+        ivProfilePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseUser.logOut();
-                ParseUser currentUser = ParseUser.getCurrentUser();
-                Intent i = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(i);
-                finish();
+                Intent intent = new Intent(MainActivity.this, PersonalActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
         });
+        tvName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PersonalActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+            }
+        });
+
 
     }
 
