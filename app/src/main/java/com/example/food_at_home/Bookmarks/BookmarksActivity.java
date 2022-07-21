@@ -4,9 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 
+import com.example.food_at_home.Common.MainActivity;
 import com.example.food_at_home.Parse.Bookmarks;
 import com.example.food_at_home.R;
 import com.parse.FindCallback;
@@ -19,6 +23,7 @@ import java.util.List;
 
 public class BookmarksActivity extends AppCompatActivity {
 
+    private ImageButton ibHome;
     private RecyclerView rvBookmarks;
     protected List<Bookmarks> bookmarksList;
     protected BookmarksAdapter adapter;
@@ -28,12 +33,23 @@ public class BookmarksActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bookmarks);
 
         rvBookmarks = findViewById(R.id.rvBookmarks);
+        ibHome = findViewById(R.id.ibHome);
         bookmarksList = new ArrayList<>();
         adapter = new BookmarksAdapter(this, bookmarksList);
 
         rvBookmarks.setAdapter(adapter);
         rvBookmarks.setLayoutManager(new LinearLayoutManager(this));
         queryBookmarks();
+
+        ibHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BookmarksActivity.this, MainActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                finish();
+            }
+        });
     }
 
     private void queryBookmarks() {
@@ -57,4 +73,5 @@ public class BookmarksActivity extends AppCompatActivity {
         });
 
     }
+
 }
