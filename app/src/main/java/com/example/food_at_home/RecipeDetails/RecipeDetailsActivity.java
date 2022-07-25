@@ -27,11 +27,13 @@ import com.example.food_at_home.Common.RequestManager;
 import com.example.food_at_home.Common.RecipeClickListener;
 import com.example.food_at_home.SimilarRecipe.SimilarRecipeListener;
 import com.example.food_at_home.SimilarRecipe.SimilarRecipeResponse;
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
@@ -60,6 +62,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     InstructionsAdapter instructionsAdapter;
     boolean isBookmarked = false;
     List<RecipeDetailsResponse> list = new ArrayList<>();
+    List<String> idlist = new ArrayList<>();
 
 
     @Override
@@ -105,15 +108,47 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                 if(!isBookmarked){
                     Drawable newImage1 = RecipeDetailsActivity.this.getDrawable(android.R.drawable.btn_star_big_on);
                     ibBookmark.setImageDrawable(newImage1);
-                    saveBookmark(list);
+                    isBookmarked = true;
+                    if(!idlist.contains(String.valueOf(id))){
+                        saveBookmark(list);
+                    }
                 }else{
                     Drawable newImage2 = RecipeDetailsActivity.this.getDrawable(android.R.drawable.btn_star_big_off);
                     ibBookmark.setImageDrawable(newImage2);
+                    isBookmarked = false;
+                    idlist.remove(String.valueOf(id));
+                    ParseQuery<Bookmarks> query = ParseQuery.getQuery(Bookmarks.class);
+                    query.include(Bookmarks.BOOKMARK_TITLE);
+                    query.include(Bookmarks.BOOKMARK_ID);
+                    query.include(Bookmarks.BOOKMARK_USER);
+                    query.whereEqualTo(Bookmarks.BOOKMARK_ID, String.valueOf(id));
+                    query.findInBackground(new FindCallback<Bookmarks>() {
+                        @Override
+                        public void done(List<Bookmarks> objects, ParseException e) {
+                            for(Bookmarks bookmark : objects){
+                                deleteBookmark(bookmark);
+                            }
+                        }
+                    });
                 }
 
             }
         });
 
+    }
+
+    private void deleteBookmark(Bookmarks bookmarks) {
+        bookmarks.deleteInBackground(new DeleteCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e==null) {
+                    Toast.makeText(RecipeDetailsActivity.this, "Recipe Removed", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(RecipeDetailsActivity.this, "Problem Removing Recipe", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void saveBookmark(List<RecipeDetailsResponse> list) {
@@ -123,8 +158,20 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         bookmarks.setBookmarkId(String.valueOf(id));
         bookmarks.setUser(ParseUser.getCurrentUser());
         bookmarks.setBookmarkPhoto(item.image);
-        bookmarks.saveInBackground();
+        idlist.add(String.valueOf(id));
+        bookmarks.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e==null){
+                    Toast.makeText(RecipeDetailsActivity.this, "Recipe Saved", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(RecipeDetailsActivity.this, "Problem Saving Recipe", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
+
+
 
     private void checkBookmarked() {
         ParseQuery<Bookmarks> query = ParseQuery.getQuery(Bookmarks.class);
