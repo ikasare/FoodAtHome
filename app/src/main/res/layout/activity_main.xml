@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:iconifiedByDefault="false"
-            app:queryHint="Search by ingredient" />
+            app:queryHint="Search..." />
     </androidx.cardview.widget.CardView>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
