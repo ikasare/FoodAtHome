@@ -16,7 +16,7 @@
         android:ems="10"
         android:textSize="11sp"
         android:gravity="start|top"
-        android:hint="leave a review..."
+        android:hint="Share your attempt! and leave a review..."
         android:inputType="textMultiLine"
         android:minLines="5"
         app:layout_constraintEnd_toEndOf="parent"
