@@ -9,12 +9,12 @@
         <entry key="app/src/main/res/drawable/ic_baseline_group_24.xml" value="0.231" />
         <entry key="app/src/main/res/drawable/roundedbutton.xml" value="0.5485" />
         <entry key="app/src/main/res/layout/activity_bookmarks.xml" value="0.3858267716535433" />
-        <entry key="app/src/main/res/layout/activity_comments.xml" value="0.6453703703703704" />
+        <entry key="app/src/main/res/layout/activity_comments.xml" value="0.435760498046875" />
         <entry key="app/src/main/res/layout/activity_comments_feed.xml" value="0.6045806884765625" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.7926638950445715" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3243606567382813" />
         <entry key="app/src/main/res/layout/activity_personal.xml" value="0.6462962962962963" />
-        <entry key="app/src/main/res/layout/activity_recipe_details.xml" value="0.3972222222222222" />
+        <entry key="app/src/main/res/layout/activity_recipe_details.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.6930475870768229" />
         <entry key="app/src/main/res/layout/instructions_step_items.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/instructions_steps.xml" value="0.421875" />
